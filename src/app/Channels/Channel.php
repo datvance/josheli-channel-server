@@ -2,7 +2,7 @@
 
 namespace App\Channels;
 
-abstract class Channel
+class Channel
 {
   /**
    * channel-id used in urls, etc
