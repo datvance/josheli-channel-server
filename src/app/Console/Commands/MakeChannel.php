@@ -50,13 +50,13 @@ class MakeChannel extends Command
       file_put_contents($new_directory . '/.gitkeep', '');
     }
     
-    file_put_contents($channel_path . '/' . $dir_name . '.php', $this->channelClassTemplate($dir_name));
+    file_put_contents($channel_path . '/' . $dir_name . '.php', $this->channelClassTemplate($dir_name, $given_name));
 
     $this->info('New Channel, "' . $given_name . '", created at: ' . base_path('app/Channels/' . $dir_name));
     return true;
   }
 
-  protected function channelClassTemplate($channel_name)
+  protected function channelClassTemplate($channel_name, $given_name)
   {
     return '<?php
 
@@ -66,7 +66,7 @@ use App\Channels\Channel;
 
 class '.$channel_name.' extends Channel
 {
-
+  protected $description = \''.$given_name.'\';
 }';
   }
 }

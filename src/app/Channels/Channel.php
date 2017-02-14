@@ -17,6 +17,12 @@ class Channel
   protected $name;
 
   /**
+   * Not really used, except for hu-mans
+   * @var
+   */
+  protected $description;
+
+  /**
    * Defaults to "background.png"
    * @var
    */
