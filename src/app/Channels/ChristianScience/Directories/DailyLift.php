@@ -3,6 +3,7 @@
 namespace App\Channels\ChristianScience\Directories;
 
 use App\Channels\Directory;
+use App\Channels\Track;
 use PicoFeed\Reader\Reader;
 
 class DailyLift extends Directory
@@ -46,16 +47,14 @@ class DailyLift extends Directory
 
         $day = $dt->format('F j, Y');
 
-        $lift = [
-          'type' => 'track',
-          'url' => $item->getEnclosureUrl(),
-          'title' => $item->getTitle(),
-          'summary' => $day . ': ' . trim(strip_tags($content)),
-          'thumb' => $thumb,
-          'date' => $dt->getTimestamp()
-        ];
+        $lift = new Track();
+        $lift->url = $item->getEnclosureUrl();
+        $lift->title = $item->getTitle();
+        $lift->summary = $day . ': ' . trim(strip_tags($content));
+        $lift->thumb = $thumb;
+        $lift->date = $dt->getTimestamp();
 
-        $lifts[$timestamp] = $lift;
+        $lifts[$timestamp] = $lift->info();
       }
 
       sort($lifts, SORT_NUMERIC|SORT_ASC);
@@ -64,6 +63,6 @@ class DailyLift extends Directory
     {
     }
 
-    return $lifts;
+    return array_values($lifts);
   }
 }

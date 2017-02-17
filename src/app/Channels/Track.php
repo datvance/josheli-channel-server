@@ -6,28 +6,39 @@ namespace App\Channels;
  * An Audio Track representation
  *
  * Class Track
+ *
+ * @property $container
+ * @property $url
+ * @property $date
+ *
  * @package App\Channels
  */
 class Track extends Item
 {
-  /**
-   * Audio container, one of "mp3", "mp4", "mov", "avi", "flv"
-   * @var string
-   */
-  protected $container = '';
+  protected $properties = [
 
-  /**
-   * The URL to the audio file
-   *
-   * @var string
-   */
-  protected $url = '';
+    /**
+     * Audio container, one of "mp3", "mp4", "mov", "avi", "flv"
+     * @var string
+     */
 
-  /**
-   * Unix Timestamp of this audio track
-   * @var int
-   */
-  protected $date = 0;
+    'container' => null,
+
+    /**
+     * The URL to the audio file
+     *
+     * @var string
+     */
+
+    'url' => null,
+
+    /**
+     * Unix Timestamp of this audio track
+     * @var int
+     */
+
+    'date' => null,
+  ];
 
   /**
    * @return array
@@ -36,15 +47,20 @@ class Track extends Item
   {
     $info = parent::info();
 
-    $info['url'] = $this->url;
+    $info['url'] = $this->properties['url'];
 
-    if($this->container) 
+    if($this->properties['container'])
     {
-      $info['container'] = $this->container;
+      $info['container'] = $this->properties['container'];
     }
 
-    $info['date'] = $this->date ? $this->date : time();
+    $info['date'] = $this->properties['date'] ? $this->properties['date'] : time();
 
     return $info;
+  }
+  
+  public function date()
+  {
+    return $this->properties['date'] ? $this->properties['date'] : time();
   }
 }

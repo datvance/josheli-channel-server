@@ -155,7 +155,7 @@ class Channel
 
     if(!$this->icon)
     {
-      $this->channel_icon = "/public/channels/{$channel_id}/icon.png";
+      $this->icon = "/public/channels/{$channel_id}/icon.png";
     }
 
     return $this->icon;
