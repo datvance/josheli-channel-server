@@ -18,4 +18,9 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     {
         $this->get('/channel/' . $this->channel_id . $endpoint)->seeJson($json);
     }
+
+    public function getJsonAsArray()
+    {
+        return json_decode($this->response->getContent(), true);
+    }
 }
