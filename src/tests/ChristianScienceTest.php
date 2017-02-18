@@ -4,7 +4,26 @@
 class ChristianScienceTest extends TestCase
 {
   protected $channel_id = 'christian-science';
-  
+
+  public function testIndex()
+  {
+    $this->endpointContainsJson('', [
+      'endpoint' => "/channel/christian-science/directory/christian-science",
+      'type' => "directory",
+      'id' => "christian-science",
+      'title' => "Christian Science",
+      'channel_id' => "christian-science"
+    ]);
+
+    $json = $this->getJsonAsArray();
+
+    $this->assertArrayHasKey('background', $json);
+    $this->assertStringEndsWith('/channel/christian-science/asset/background.jpg', $json['background']);
+    $this->assertArrayHasKey('thumb', $json);
+    $this->assertStringEndsWith('/channel/christian-science/asset/thumb.jpg', $json['thumb']);
+
+  }
+
   /**
    * Test the Main Menu directory.
    *

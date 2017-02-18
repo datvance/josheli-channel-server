@@ -66,7 +66,7 @@ class Channel extends Directory
     if(!$this->properties['background'])
     {
       $this->properties['background'] = route('asset', [
-        'channel_name' => $this->id,
+        'channel_id' => $this->id(),
         'asset_name' => 'background.jpg'
       ]);
     }

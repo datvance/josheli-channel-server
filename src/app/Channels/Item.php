@@ -179,8 +179,8 @@ class Item
     if(!$this->properties['thumb'] && $this->channel_id())
     {
       $this->properties['thumb'] = route('asset', [
-        'channel_name' => $this->channel_id(),
-        'asset_name' => $this->id().'.jpg'
+        'channel_id' => $this->channel_id(),
+        'asset_name' => 'thumb.jpg'
       ]);
     }
     return $this->properties['thumb'];
