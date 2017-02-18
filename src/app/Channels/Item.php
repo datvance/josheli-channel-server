@@ -12,7 +12,7 @@ namespace App\Channels;
  * @property $title
  * @property $summary
  * @property $thumb
- * @property $channel
+ * @property $channel_id
  *
  * @package App\Channels
  */
@@ -48,13 +48,20 @@ class Item
 
     /**
      * The Channel this item is a part of
-     * @var Channel
+     * @var string
      */
-    'channel' => null,
+    'channel_id' => null,
   ];
+
+  /**
+   * @var \Illuminate\Contracts\Cache\Repository
+   */
+  protected $cache;
 
   public function __construct()
   {
+    $this->cache = app()->make('cache');
+
     $this->initializeProperties();
   }
 
@@ -62,18 +69,18 @@ class Item
   {
     //extend this class's properties with sub-class properties
     $class = get_called_class();
-
-    //handle the case where sub-class sets property directly
-    $vars = get_class_vars($class);
-    foreach($this->properties as $prop => $val)
-    {
-      if(isset($vars[$prop])) $this->properties[$prop] = $vars[$prop];
-    }
+    $called_class_vars = get_class_vars($class);
 
     //add any additional props to $properties array
     while ($class = get_parent_class($class))
     {
       $this->properties += get_class_vars($class)['properties'];
+    }
+
+    //handle the case where called class sets property directly
+    foreach($this->properties as $prop => $val)
+    {
+      if(isset($called_class_vars[$prop])) $this->properties[$prop] = $called_class_vars[$prop];
     }
 
     //now, try to set some defaults
@@ -116,9 +123,7 @@ class Item
    */
   public function info()
   {
-    $props = $this->properties;
-    unset($props['channel']);
-    return array_filter($props);
+    return array_filter($this->properties);
   }
 
   public function type()
@@ -155,7 +160,7 @@ class Item
       $class_name = class_basename($this);
       $id = Helpers::slugify($class_name);
       //prevent the case where a track object is created wihtout being given an explicit id
-      if($id != $this->type)
+      if($id != $this->type())
       {
         $this->properties['id'] = $id;
       }
@@ -171,11 +176,11 @@ class Item
 
   public function thumb()
   {
-    if(!$this->properties['thumb'] && $this->channel())
+    if(!$this->properties['thumb'] && $this->channel_id())
     {
       $this->properties['thumb'] = route('asset', [
-        'channel_name' => $this->channel()->id(),
-        'asset_name' => $this->id.'.jpg'
+        'channel_name' => $this->channel_id(),
+        'asset_name' => $this->id().'.jpg'
       ]);
     }
     return $this->properties['thumb'];
@@ -186,19 +191,42 @@ class Item
    *
    * @return Channel
    */
-  public function channel()
+  public function channel_id()
   {
-    if(!$this->properties['channel'])
+    if(!$this->properties['channel_id'])
     {
-      $parts = explode('\\', get_class($this));
-      $namespace = join('\\', array_slice($parts, 0, 3));
-      $ns_class = $namespace . '\\' . basename($parts[2]);
-      if(class_exists($ns_class))
+      if($this instanceof Channel)
       {
-        $this->properties['channel'] = new $ns_class();
+        $this->properties['channel_id'] = $this->id();
+      }
+      else
+      {
+        $parts = explode('\\', get_class($this));
+        $this->properties['channel_id'] = Helpers::slugify($parts[2]);
       }
     }
 
-    return $this->properties['channel'];
+    return $this->properties['channel_id'];
+  }
+
+  public function getCache($cache_name)
+  {
+    $cache_name = $this->id() . '-' . $cache_name;
+
+    return $this->cache->get($cache_name);
+  }
+
+  public function putCache($cache_name, $value, $minutes = 60)
+  {
+    $cache_name = $this->id() . '-' . $cache_name;
+
+    return $this->cache->add($cache_name, $value, $minutes);
+  }
+
+  public function clearCache($cache_name)
+  {
+    $cache_name = $this->id() . '-' . $cache_name;
+
+    return $this->cache->forget($cache_name);
   }
 }

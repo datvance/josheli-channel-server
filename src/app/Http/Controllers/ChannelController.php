@@ -25,24 +25,24 @@ class ChannelController extends Controller
   }
 
   /**
-   * @param $channel_name
+   * @param $channel_id
    * @return \Illuminate\Http\JsonResponse
    */
-  public function index($channel_name)
+  public function index($channel_id)
   {
     return $this->respond(
-      $this->channel($channel_name)->info()
+      $this->channel($channel_id)->info()
     );
   }
 
   /**
-   * @param $channel_name
+   * @param $channel_id
    * @param $directory_name
    * @return \Illuminate\Http\JsonResponse
    */
-  public function directory($channel_name, $directory_name)
+  public function directory($channel_id, $directory_name)
   {
-    $channel = $this->channel($channel_name);
+    $channel = $this->channel($channel_id);
     
     if($this->request->input('cache') == 'delete')
     {
@@ -55,14 +55,14 @@ class ChannelController extends Controller
   }
 
   /**
-   * @param $channel_name
+   * @param $channel_id
    * @param $asset_name
    * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
    */
-  public function asset($channel_name, $asset_name)
+  public function asset($channel_id, $asset_name)
   {
     return response()->download(
-      base_path() . '/app/Channels/' . camel_case($channel_name) . '/assets/' . $asset_name,
+      base_path() . '/app/Channels/' . camel_case($channel_id) . '/assets/' . $asset_name,
       $asset_name,
       [],
       'inline'
@@ -70,12 +70,12 @@ class ChannelController extends Controller
   }
 
   /**
-   * @param $channel_name
+   * @param $channel_id
    * @return \App\Channels\Channel
    */
-  protected function channel($channel_name)
+  protected function channel($channel_id)
   {
-    $class_name = camel_case($channel_name);
+    $class_name = camel_case($channel_id);
     $ns_class = 'App\Channels\\'.$class_name.'\\'.$class_name;
     try
     {
@@ -85,6 +85,8 @@ class ChannelController extends Controller
     {
       abort(404, $e->getMessage());
     }
+    
+    return null;
   }
 
   /**

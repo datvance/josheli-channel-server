@@ -10,6 +10,13 @@ namespace App\Channels;
  */
 class Directory extends Item
 {
+  protected $properties = [
+    /**
+     *
+     */
+    'endpoint' => null,
+  ];
+
   /**
    * A list of the items in this directory
    * 
@@ -19,4 +26,17 @@ class Directory extends Item
   {
     return [];
   }
+
+  public function endpoint()
+  {
+    if(!$this->properties['endpoint'] && $this->channel_id())
+    {
+      $url = route('directory', [
+        'channel_id' => $this->channel_id(),
+        'directory_id' => $this->id()
+      ]);
+      $this->properties['endpoint'] = parse_url($url, PHP_URL_PATH);
+    }
+    return $this->properties['endpoint'];
+  }  
 }

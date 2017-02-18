@@ -15,7 +15,7 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
-$app->group(['prefix' => 'channel/{channel_name}'], function () use ($app)
+$app->group(['prefix' => 'channel/{channel_id}'], function () use ($app)
 {
     $app->get('', [
       'as' => 'index',

@@ -2,63 +2,11 @@
 
 namespace App\Channels;
 
-class Channel
+class Channel extends Directory
 {
-  /**
-   * channel-id used in urls, etc
-   * @var
-   */
-  protected $id;
-
-  /**
-   * "Channel Name" for humans
-   * @var
-   */
-  protected $name;
-
-  /**
-   * Not really used, except for hu-mans
-   * @var
-   */
-  protected $description;
-
-  /**
-   * Defaults to "background.png"
-   * @var
-   */
-  protected $background_image;
-
-  /**
-   * Defaults to "icon.png"
-   * @var
-   */
-  protected $icon;
-
-  /**
-   * Plex view type (or something)
-   * @var string
-   */
-  protected $view_group = 'List';
-
-  /**
-   * @var \Illuminate\Contracts\Cache\Repository
-   */
-  protected $cache;
-
-  public function __construct()
-  {
-    $this->cache = app()->make('cache');
-  }
-
-  public function info()
-  {
-    return [
-      'name' => $this->name(),
-      'background-image' => $this->backgroundImage(),
-      'channel-icon' => $this->icon(),
-      'view-group' => $this->viewGroup()
-    ];
-  }
+  protected $properties = [
+    'background' => null
+  ];
 
   public function directory($directory_id)
   {
@@ -70,7 +18,6 @@ class Channel
     }
 
     $contents = [
-      'endpoint' => '/channel/' . $this->id() . '/directory/' . $directory_id,
       'items' => [],
     ];
 
@@ -114,77 +61,17 @@ class Channel
     return $contents;
   }
 
-  public function name()
+  public function background()
   {
-    if(!$this->name)
+    if(!$this->properties['background'])
     {
-      $this->name = Helpers::deslugify($this->id());
+      $this->properties['background'] = route('asset', [
+        'channel_name' => $this->id,
+        'asset_name' => 'background.jpg'
+      ]);
     }
 
-    return $this->name;
-  }
-
-  public function id()
-  {
-    if(!$this->id)
-    {
-      $namespaced_class = get_class($this);
-      $class_name = substr($namespaced_class, strrpos($namespaced_class, '\\') + 1);
-
-      $this->id = Helpers::slugify($class_name);
-    }
-
-    return $this->id;
-  }
-
-  public function backgroundImage()
-  {
-    $channel_id = $this->id();
-
-    if(!$this->background_image)
-    {
-      $this->background_image = "/public/channels/{$channel_id}/background.png";
-    }
-
-    return $this->background_image;
-  }
-
-  public function icon()
-  {
-    $channel_id = $this->id();
-
-    if(!$this->icon)
-    {
-      $this->icon = "/public/channels/{$channel_id}/icon.png";
-    }
-
-    return $this->icon;
-  }
-
-  public function viewGroup()
-  {
-    return $this->view_group;
-  }
-
-  public function getCache($cache_name)
-  {
-    $cache_name = $this->id() . '-' . $cache_name;
-
-    return $this->cache->get($cache_name);
-  }
-
-  public function putCache($cache_name, $value, $minutes = 60)
-  {
-    $cache_name = $this->id() . '-' . $cache_name;
-
-    return $this->cache->add($cache_name, $value, $minutes);
-  }
-
-  public function clearCache($cache_name)
-  {
-    $cache_name = $this->id() . '-' . $cache_name;
-
-    return $this->cache->forget($cache_name);
+    return $this->properties['background'];
   }
 
 }
