@@ -2,6 +2,8 @@
 
 abstract class TestCase extends Laravel\Lumen\Testing\TestCase
 {
+    protected $channel_id = '';
+
     /**
      * Creates the application.
      *
@@ -10,5 +12,10 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     public function createApplication()
     {
         return require __DIR__.'/../bootstrap/app.php';
+    }
+
+    protected function endpointContainsJson($endpoint, $json)
+    {
+        $this->get('/channel/' . $this->channel_id . $endpoint)->seeJson($json);
     }
 }

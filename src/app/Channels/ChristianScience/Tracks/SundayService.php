@@ -11,6 +11,8 @@ class SundayService extends Track
   
   public function __construct()
   {
+    parent::__construct();
+    
     /**
      * Recorded version of service goes up around noon eastern
      */
