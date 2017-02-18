@@ -54,7 +54,7 @@ class Track extends Item
       $info['container'] = $this->properties['container'];
     }
 
-    $info['date'] = $this->properties['date'] ? $this->properties['date'] : time();
+    $info['date'] = $this->date();
 
     return $info;
   }
