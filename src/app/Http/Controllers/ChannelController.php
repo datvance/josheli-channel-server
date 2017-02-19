@@ -41,6 +41,7 @@ class ChannelController extends Controller
       /** @var Channel $channel */
       $channel = new $ns_class();
       $response = $channel->info();
+      $response['items'] = $channel->items();
     }
     catch (\Exception $e)
     {
@@ -57,6 +58,11 @@ class ChannelController extends Controller
    */
   public function directory($channel_id, $directory_id)
   {
+    if($directory_id == 'index')
+    {
+      return redirect()->route('index', ['channel_id' => $channel_id]);
+    }
+
     $response = [];
 
     try

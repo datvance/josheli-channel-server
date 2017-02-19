@@ -5,7 +5,7 @@ class ChristianScienceTest extends TestCase
 {
   protected $channel_id = 'christian-science';
 
-  public function testIndex()
+  public function testChannel()
   {
     $this->endpointContainsJson('', [
       'endpoint' => "/channel/christian-science",
@@ -21,24 +21,6 @@ class ChristianScienceTest extends TestCase
     $this->assertStringEndsWith('/channel/christian-science/asset/background.jpg', $json['background']);
     $this->assertArrayHasKey('thumb', $json);
     $this->assertStringEndsWith('/channel/christian-science/asset/thumb.jpg', $json['thumb']);
-
-  }
-
-  /**
-   * Test the Main Menu directory.
-   *
-   * @return void
-   */
-  public function testMainMenu()
-  {
-    $this->endpointContainsJson('/directory/main-menu', [
-      'type' => 'directory',
-      'id' => 'main-menu',
-      'title' => 'Christian Science',
-      'endpoint' => "/channel/{$this->channel_id}/directory/main-menu"
-    ]);
-
-    $json = $this->getJsonAsArray();
 
     $this->assertArrayHasKey('items', $json);
     $this->assertNotEmpty($json['items']);
@@ -60,6 +42,18 @@ class ChristianScienceTest extends TestCase
       $this->assertTrue(in_array($item['id'], $ids));
 
     }
+  }
+
+  /**
+   * Test the Directory Index.
+   *
+   * @return void
+   */
+  public function testIndexRedirectsToChannel()
+  {
+    $this->get('/channel/' . $this->channel_id . '/directory/index');
+
+    $this->assertResponseStatus(302);
 
   }
 
