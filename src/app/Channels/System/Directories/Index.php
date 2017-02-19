@@ -7,7 +7,7 @@ use App\Channels\Channel;
 use App\Channels\Helpers;
 use Illuminate\Filesystem\Filesystem;
 
-class MainMenu extends Directory
+class Index extends Directory
 {
   protected $title = 'Josheli TV';
 

@@ -26,7 +26,7 @@ class Item
     'type' => null,
 
     /**
-     * String id, e.g. "main-menu"
+     * String id, e.g. "daily-lift"
      * @var string
      */
     'id' => null,
