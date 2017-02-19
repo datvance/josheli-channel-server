@@ -1,0 +1,12 @@
+logo font:
+Rockwell Extra Bold, Ultra-Bold
+
+logo text color:
+#3399ff
+
+logo size:
+512x512
+
+background size (16:9):
+1280x720 = 1.7777
+1920x1080 = 1.7777

@@ -1,44 +1,50 @@
 /channel/<channel-id>
+
 /channel/christian-science
 {
-  name: "Christian Science",
+  type: "channel",
+  title: "Christian Science",
   id: "christian-science",
-  background-image: "http://<channel->/background.jpg",
-  channel-icon: "http://<channel-id>/icon.jpg"
-  view-group: "List",
-}
-
-/channel/<channel-name>/directory/main-menu
-{
-  id: "main-menu",
-  title: "Main Menu"
+  channel_id: "christian-science",
+  endpoint: "/channel/christian-science",
+  background: "/channel/christian-science/asset/background.jpg",
+  thumb: "/channel/christian-science/asset/thumb.jpg",
   items:
   [
     {
-      type: "directory",
-      id: "daily-lift"
-      title: "Daily lift",
-      thumb: "http://<channel-name>/directory-daily-lift.jpg"
+      type: "directory"
+      id: "daily-lift",
+      channel_id: "christian-science",
+      endpoint: "/channel/christian-science/directory/daily-lift",
+      title: "Daily Lift",
+      summary: "Short podcasts to inspire.",
+      thumb: "/channel/christian-science/asset/daily-lift.jpg",
     },
     {
       type: "track",
-      id: "Sunday Service"
+      id: "sunday-service"
       title: "Church Services",
-      thumb: "http://<channel-name>/directory-church-services.jpg",
+      thumb: "/channel/christian-science/asset/sunday-service.jpg",
       url: "http://cs.com/sunday.mp3",
       container: "mp3",
       date: now(),
-      summary: "A summary of this track"
+      summary: "A summary of this track",
+      channel_id: "christian-science",
     }
   ]
 }
 
 /channel/<channel-id>/directory/<directory-id>
+
 /channel/christian-science/directory/daily-lift
 {
+  type: "directory"
+  id: "daily-lift",
+  channel_id: "christian-science",
+  endpoint: "/channel/christian-science/directory/daily-lift",
   title: "Daily Lift",
-  summary: "",
-  view-group: "InfoList",
+  summary: "Short podcasts to inspire.",
+  thumb: "/channel/christian-science/asset/daily-lift.jpg",
   items:
   [
     {
@@ -50,28 +56,5 @@
       duration: 120000
     },
     ...
-  ]
-}
-
-/channel/christian-science/directory/services
-{
-  title: "Church Services",
-  view-group: "InfoList",
-  items:
-  [
-    {
-      type: "track",
-      url: "http://cs.com/sunday.mp3",
-      summary: "Full length audio from Sunday Service in Boston",
-      thumb: "http://cs.com/thumb.jpg",
-      title: "Sunday Service",
-    },
-    {
-      type: "track",
-      url: "http://cs.com/wednesday.mp3",
-      summary: "SFull length audio from Sunday Service in Boston",
-      thumb: "http://cs.com/thumb.jpg",
-      title: "Wednesday Service",
-
   ]
 }
