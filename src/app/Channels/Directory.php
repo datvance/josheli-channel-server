@@ -31,12 +31,21 @@ class Directory extends Item
   {
     if(!$this->properties['endpoint'] && $this->channel_id())
     {
-      $url = route('directory', [
-        'channel_id' => $this->channel_id(),
-        'directory_id' => $this->id()
-      ]);
+      if($this instanceof Channel)
+      {
+        $url = route('index', ['channel_id' => $this->channel_id()]);
+      }
+      else
+      {
+        $url = route('directory', [
+          'channel_id' => $this->channel_id(),
+          'directory_id' => $this->id()
+        ]);
+      }
+
       $this->properties['endpoint'] = parse_url($url, PHP_URL_PATH);
     }
+
     return $this->properties['endpoint'];
   }  
 }

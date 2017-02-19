@@ -130,7 +130,11 @@ class Item
   {
     if(!$this->properties['type'])
     {
-      if($this instanceof Directory)
+      if($this instanceof Channel)
+      {
+        $this->properties['type'] = 'channel';
+      }
+      elseif($this instanceof Directory)
       {
         $this->properties['type'] = 'directory';
       }

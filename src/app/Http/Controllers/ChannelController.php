@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Channels\Channel;
+use App\Channels\Directory;
 use Illuminate\Http\Request;
 
 /**
@@ -30,28 +32,59 @@ class ChannelController extends Controller
    */
   public function index($channel_id)
   {
-    return $this->respond(
-      $this->channel($channel_id)->info()
-    );
+    $response = [];
+    try
+    {
+      $class_name = camel_case($channel_id);
+      $ns_class = 'App\Channels\\'.$class_name.'\\'.$class_name;
+
+      /** @var Channel $channel */
+      $channel = new $ns_class();
+      $response = $channel->info();
+    }
+    catch (\Exception $e)
+    {
+      abort(404, $e->getMessage());
+    }
+
+    return $this->respond($response);
   }
 
   /**
    * @param $channel_id
-   * @param $directory_name
+   * @param $directory_id
    * @return \Illuminate\Http\JsonResponse
    */
-  public function directory($channel_id, $directory_name)
+  public function directory($channel_id, $directory_id)
   {
-    $channel = $this->channel($channel_id);
-    
-    if($this->request->input('cache') == 'delete')
+    $response = [];
+
+    try
     {
-      $channel->clearCache($directory_name);
+      $ns_class =
+        'App\\Channels\\' .
+        studly_case($channel_id) .
+        '\\Directories\\' .
+        studly_case($directory_id);
+
+      /** @var Directory $directory */
+      $directory = new $ns_class();
+
+      if($this->request->input('cache') == 'delete')
+      {
+        $directory->clearCache($directory_id);
+      }
+
+      $response = $directory->info();
+      $response['items'] = $directory->items();
+
+    }
+    catch (\Exception $e)
+    {
+      abort(404, $e->getMessage());
     }
 
-    return $this->respond(
-      $channel->directory($directory_name)
-    );
+    return $this->respond($response);
   }
 
   /**
@@ -67,26 +100,6 @@ class ChannelController extends Controller
       [],
       'inline'
     );
-  }
-
-  /**
-   * @param $channel_id
-   * @return \App\Channels\Channel
-   */
-  protected function channel($channel_id)
-  {
-    $class_name = camel_case($channel_id);
-    $ns_class = 'App\Channels\\'.$class_name.'\\'.$class_name;
-    try
-    {
-      return new $ns_class();
-    }
-    catch (\Exception $e)
-    {
-      abort(404, $e->getMessage());
-    }
-    
-    return null;
   }
 
   /**

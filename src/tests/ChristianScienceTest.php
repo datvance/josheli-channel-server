@@ -8,8 +8,8 @@ class ChristianScienceTest extends TestCase
   public function testIndex()
   {
     $this->endpointContainsJson('', [
-      'endpoint' => "/channel/christian-science/directory/christian-science",
-      'type' => "directory",
+      'endpoint' => "/channel/christian-science",
+      'type' => "channel",
       'id' => "christian-science",
       'title' => "Christian Science",
       'channel_id' => "christian-science"
