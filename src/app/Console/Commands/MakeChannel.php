@@ -80,8 +80,7 @@ class '.$channel_name.' extends Channel
 
   protected function mainMenuClassTemplate($channel_name, $given_name)
   {
-    return '
-<?php
+    return '<?php
 
 namespace App\Channels\\'.$channel_name.'\Directories;
 
