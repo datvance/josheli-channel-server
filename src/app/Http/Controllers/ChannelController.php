@@ -30,7 +30,7 @@ class ChannelController extends Controller
    * @param $channel_id
    * @return \Illuminate\Http\JsonResponse
    */
-  public function index($channel_id)
+  public function mainMenu($channel_id)
   {
     $response = [];
     try
@@ -58,9 +58,9 @@ class ChannelController extends Controller
    */
   public function directory($channel_id, $directory_id)
   {
-    if($directory_id == 'index')
+    if($directory_id == 'main-menu')
     {
-      return redirect()->route('index', ['channel_id' => $channel_id]);
+      return redirect()->route('main-menu', ['channel_id' => $channel_id]);
     }
 
     $response = [];

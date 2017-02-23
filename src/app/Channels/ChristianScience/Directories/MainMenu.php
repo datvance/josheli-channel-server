@@ -7,7 +7,7 @@ use App\Channels\ChristianScience\Tracks\SundayService;
 use App\Channels\ChristianScience\Tracks\WednesdayService;
 use App\Channels\Directory;
 
-class Index extends Directory
+class MainMenu extends Directory
 {
   protected $title = "Christian Science";
   

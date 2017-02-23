@@ -6,10 +6,13 @@ use App\Channels\Track;
 
 class WednesdayService extends Track
 {
+  protected $container = 'mp3';
   protected $title = 'Online Wednesday Service';
 
   public function __construct()
   {
+    parent::__construct();
+
     /**
      * Recorded version of service goes up around 3pm eastern
      * And taken down 8am easter on Friday
@@ -33,9 +36,7 @@ class WednesdayService extends Track
       $wednesday_service_date = date('F j, Y', $wednesday_service_time);
 
       $this->url = 'http://dl.cdn.csps.com/clerk/wed_service/wed_service_'.$wednesday_service_file.'.mp3';
-
-      $this->container = 'mp3';
-
+      
       $this->summary = 'Wednesday Service from The Mother Church in Boston on '.$wednesday_service_date.'.';
 
       $this->date = $wednesday_service_time;

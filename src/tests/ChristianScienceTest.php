@@ -8,25 +8,25 @@ class ChristianScienceTest extends TestCase
   public function testChannel()
   {
     $this->endpointContainsJson('', [
-      'endpoint' => "/channel/christian-science",
+      'endpoint' => "/channel/{$this->channel_id}",
       'type' => "channel",
-      'id' => "christian-science",
-      'title' => "Christian Science",
-      'channel_id' => "christian-science"
+      'id' => $this->channel_id,
+      'title' => \App\Channels\Helpers::deslugify($this->channel_id),
+      'channel_id' => $this->channel_id
     ]);
 
     $json = $this->getJsonAsArray();
 
     $this->assertArrayHasKey('background', $json);
-    $this->assertStringEndsWith('/channel/christian-science/asset/background.jpg', $json['background']);
+    $this->assertStringEndsWith('/channel/'.$this->channel_id.'/asset/background.jpg', $json['background']);
     $this->assertArrayHasKey('thumb', $json);
-    $this->assertStringEndsWith('/channel/christian-science/asset/thumb.jpg', $json['thumb']);
+    $this->assertStringEndsWith('/channel/'.$this->channel_id.'/asset/thumb.jpg', $json['thumb']);
 
     $this->assertArrayHasKey('items', $json);
     $this->assertNotEmpty($json['items']);
 
     $types = ['directory', 'track', 'video'];
-    $ids = ['daily-lift', 'sentinel-watch', 'science-and-health', 'sunday-service'];
+    $ids = ['daily-lift', 'sentinel-watch', 'science-and-health', 'sunday-service', 'wednesday-service'];
 
     foreach($json['items'] as $item)
     {
@@ -49,9 +49,9 @@ class ChristianScienceTest extends TestCase
    *
    * @return void
    */
-  public function testIndexRedirectsToChannel()
+  public function testMainMenuRedirectsToChannel()
   {
-    $this->get('/channel/' . $this->channel_id . '/directory/index');
+    $this->get('/channel/' . $this->channel_id . '/directory/main-menu');
 
     $this->assertResponseStatus(302);
 

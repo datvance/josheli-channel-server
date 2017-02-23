@@ -17,21 +17,20 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'channel/{channel_id}'], function () use ($app)
 {
-    $app->get('', [
-      'as' => 'index',
-      'uses' => 'ChannelController@index'
-    ]);
+    $routes = [
+        'main-menu' => '',
+        'directory' => '/{directory_id}',
+        'asset' => '/{asset_name}'
+    ];
     
-    $id = 'directory';
-    $app->get($id.'/{directory_id}', [
-      'as' => $id,
-      'uses' => 'ChannelController@'.camel_case($id)
-    ]);
+    foreach($routes as $id => $route)
+    {
+        if($route) $route = $id . $route;
 
-    $id = 'asset';
-    $app->get($id.'/{asset_name}', [
-      'as' => $id,
-      'uses' => 'ChannelController@'.camel_case($id)
-    ]);
+        $app->get($route, [
+          'as' => $id,
+          'uses' => 'ChannelController@'.camel_case($id)
+        ]);
+    }
 
 });
