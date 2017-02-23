@@ -7,7 +7,8 @@ class Helpers
 {
   public static function slugify($string)
   {
-    return strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^\-])([A-Z][a-z])/'], '$1-$2', $string));
+    $string = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^\-])([A-Z][a-z])/'], '$1-$2', $string));
+    return str_replace(' ', '', $string);
   }
 
   public static function deslugify($string)

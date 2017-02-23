@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Filesystem\Filesystem;
+
 class SystemTest extends TestCase
 {
   protected $channel_id = 'system';
@@ -25,7 +27,13 @@ class SystemTest extends TestCase
     $this->assertNotEmpty($json['items']);
 
     $types = ['channel'];
-    $ids = ['christian-science'];
+
+    $ids = [];
+    $fs = new Filesystem();
+    foreach($fs->directories(base_path('app/Channels')) as $directory)
+    {
+      $ids[] = \App\Channels\Helpers::slugify(basename($directory));
+    }
 
     foreach($json['items'] as $item)
     {

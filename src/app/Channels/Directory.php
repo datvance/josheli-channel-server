@@ -13,6 +13,8 @@ namespace App\Channels;
  */
 class Directory extends Item
 {
+  protected $items = [];
+
   protected $properties = [
     /**
      *
@@ -27,7 +29,12 @@ class Directory extends Item
    */
   public function items()
   {
-    return [];
+    return $this->items;
+  }
+
+  public function addItem(Item $item)
+  {
+    $this->items[] = $item->info();
   }
 
   /**

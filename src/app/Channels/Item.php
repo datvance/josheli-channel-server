@@ -82,27 +82,33 @@ class Item
     {
       if(isset($called_class_vars[$prop])) $this->properties[$prop] = $called_class_vars[$prop];
     }
+  }
 
-    //now, try to set some defaults
+  protected function computeProperties()
+  {
     foreach($this->properties as $prop => $val)
     {
-      if($val === null && method_exists($this, $prop))
+      if(method_exists($this, $prop))
       {
         $this->$prop();
       }
     }
+
   }
 
   public function __get($name)
   {
     if(isset($this->properties[$name]))
     {
+      if(!empty($this->properties[$name]))
+      {
+        return $this->properties[$name];
+      }
+
       if(method_exists($this, $name))
       {
         return $this->$name();
       }
-
-      return $this->properties[$name];
     }
 
     return null;
@@ -123,6 +129,7 @@ class Item
    */
   public function info()
   {
+    $this->computeProperties();
     return array_filter($this->properties);
   }
 
