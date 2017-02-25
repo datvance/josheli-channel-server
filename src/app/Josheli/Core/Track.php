@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Channels;
+namespace Josheli\Core;
 
 /**
  * An Audio Track representation
@@ -11,7 +11,7 @@ namespace App\Channels;
  * @property $url
  * @property $date
  *
- * @package App\Channels
+ * @package Josheli\Core
  */
 class Track extends Item
 {

@@ -36,15 +36,15 @@ $app->group(['prefix' => 'channel/{channel_id}'], function () use ($app)
     /**
      * Scan and load optional, dynamic routes in each channel
      *
-     * @var \App\Channels\Channel $channel
+     * @var \Josheli\Core\Channel $channel
      */
-    foreach(\App\Channels\Helpers::getChannels($objects = true) as $channel)
+    foreach(\Josheli\Core\Helpers::getChannels($objects = true) as $channel)
     {
-        $channel_routes = base_path('app/Channels/'.$channel->className().'/routes.php');
+        $channel_routes = base_path('app/Josheli/Channels/'.$channel->className().'/routes.php');
         if(file_exists($channel_routes))
         {
             $app->group(
-              ['namespace' => '\App\Channels\\'.$channel->className()],
+              ['namespace' => '\Josheli\Channels\\'.$channel->className()],
               function() use ($app, $channel, $channel_routes) {
                 include $channel_routes;
             });

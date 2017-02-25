@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Channels;
+namespace Josheli\Core;
 
 use Illuminate\Filesystem\Filesystem;
 
@@ -20,7 +20,7 @@ class Helpers
   public static function getChannels($objects = false)
   {
     $fs = new Filesystem();
-    $directories = $fs->directories(base_path('app/Channels'));
+    $directories = $fs->directories(base_path('app/Josheli/Channels'));
     if(!$objects) return $directories;
 
     $channels = [];
@@ -51,7 +51,7 @@ class Helpers
       $channel_class = $channel_id_or_name;
     }
 
-    $ns_channel = 'App\\Channels\\' . $channel_class . '\\' . $channel_class;
+    $ns_channel = 'Josheli\\Channels\\' . $channel_class . '\\' . $channel_class;
 
     if(class_exists($ns_channel))
     {

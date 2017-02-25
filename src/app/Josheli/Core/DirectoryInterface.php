@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Channels;
+namespace Josheli\Core;
 
 interface DirectoryInterface {
 

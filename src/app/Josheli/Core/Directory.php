@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Channels;
+namespace Josheli\Core;
 
 /**
  * A collection of items: either other directories or tracks
@@ -9,7 +9,7 @@ namespace App\Channels;
  *
  * @property $endpoint
  *
- * @package App\Channels
+ * @package Josheli\Core
  */
 class Directory extends Item implements DirectoryInterface
 {

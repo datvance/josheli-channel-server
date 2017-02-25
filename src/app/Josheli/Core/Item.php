@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Channels;
+namespace Josheli\Core;
 
 /**
  * Directories and Tracks are Items
@@ -14,7 +14,7 @@ namespace App\Channels;
  * @property $thumb
  * @property $channel_id
  *
- * @package App\Channels
+ * @package Josheli\Core
  */
 class Item
 {
@@ -226,7 +226,7 @@ class Item
 
   public function channelNamespace()
   {
-    return 'App\Channels\\'.studly_case($this->channel_id());
+    return 'Josheli\Channels\\'.studly_case($this->channel_id());
   }
 
   public function getCache($cache_name)

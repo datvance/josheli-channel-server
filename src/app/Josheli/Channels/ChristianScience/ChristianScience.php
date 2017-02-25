@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Channels\ChristianScience;
+namespace Josheli\Channels\ChristianScience;
 
-use App\Channels\Channel;
-use App\Channels\ChristianScience\Directories\DailyLift;
-use App\Channels\ChristianScience\Directories\SentinelWatch;
-use App\Channels\ChristianScience\Tracks\ScienceAndHealth;
-use App\Channels\ChristianScience\Tracks\SundayService;
-use App\Channels\ChristianScience\Tracks\WednesdayService;
+use Josheli\Core\Channel;
+use Josheli\Channels\ChristianScience\Directories\DailyLift;
+use Josheli\Channels\ChristianScience\Directories\SentinelWatch;
+use Josheli\Channels\ChristianScience\Tracks\ScienceAndHealth;
+use Josheli\Channels\ChristianScience\Tracks\SundayService;
+use Josheli\Channels\ChristianScience\Tracks\WednesdayService;
 
 class ChristianScience extends Channel
 {

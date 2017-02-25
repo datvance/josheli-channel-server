@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Channels;
+namespace Josheli\Core;
 
 /**
  * Class Channel
  *
  * @property $background
  *
- * @package App\Channels
+ * @package Josheli\Core
  */
 class Channel extends Directory
 {

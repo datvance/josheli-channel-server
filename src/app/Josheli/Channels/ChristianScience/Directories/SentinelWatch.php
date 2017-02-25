@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Channels\ChristianScience\Directories;
+namespace Josheli\Channels\ChristianScience\Directories;
 
-use App\Channels\Directory;
+use Josheli\Core\Directory;
 use PicoFeed\Reader\Reader;
 
 class SentinelWatch extends Directory

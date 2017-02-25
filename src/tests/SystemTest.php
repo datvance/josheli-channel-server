@@ -1,5 +1,7 @@
 <?php
 
+use Josheli\Core\Helpers;
+
 class SystemTest extends TestCase
 {
   protected $channel_id = 'system';
@@ -27,9 +29,9 @@ class SystemTest extends TestCase
     $types = ['channel'];
 
     $ids = [];
-    foreach(\App\Channels\Helpers::getChannels() as $directory)
+    foreach(Helpers::getChannels() as $directory)
     {
-      $ids[] = \App\Channels\Helpers::slugify(basename($directory));
+      $ids[] = Helpers::slugify(basename($directory));
     }
 
     foreach($json['items'] as $item)

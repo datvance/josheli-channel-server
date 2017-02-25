@@ -33,7 +33,7 @@ class MakeChannel extends Command
     $given_name = $this->argument('channel');
     $dir_name = studly_case($given_name);
 
-    $channel_path = base_path('app/Channels') . '/' . $dir_name;
+    $channel_path = base_path('app/Josheli/Channels') . '/' . $dir_name;
     
     if($fs->exists($channel_path))
     {
@@ -55,7 +55,7 @@ class MakeChannel extends Command
       $this->channelClassTemplate($dir_name, $given_name)
     );
     
-    $this->info('New Channel, "' . $given_name . '", created at: ' . base_path('app/Channels/' . $dir_name));
+    $this->info('New Channel, "' . $given_name . '", created at: ' . $channel_path);
     return true;
   }
 
@@ -63,9 +63,9 @@ class MakeChannel extends Command
   {
     return '<?php
 
-namespace App\Channels\\'.$channel_name.';
+namespace Josheli\Channels\\'.$channel_name.';
 
-use App\Channels\Channel;
+use Josheli\Core\Channel;
 
 class '.$channel_name.' extends Channel
 {

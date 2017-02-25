@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Channels\ChristianScience\Directories;
+namespace Josheli\Channels\ChristianScience\Directories;
 
-use App\Channels\Directory;
-use App\Channels\Track;
+use Josheli\Core\Directory;
+use Josheli\Core\Track;
 use PicoFeed\Reader\Reader;
 
 class DailyLift extends Directory

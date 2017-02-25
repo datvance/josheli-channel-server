@@ -1,5 +1,6 @@
 <?php
 
+use Josheli\Core\Helpers;
 
 class ChristianScienceTest extends TestCase
 {
@@ -11,7 +12,7 @@ class ChristianScienceTest extends TestCase
       'endpoint' => "/channel/{$this->channel_id}",
       'type' => "channel",
       'id' => $this->channel_id,
-      'title' => \App\Channels\Helpers::deslugify($this->channel_id),
+      'title' => Helpers::deslugify($this->channel_id),
       'channel_id' => $this->channel_id
     ]);
 

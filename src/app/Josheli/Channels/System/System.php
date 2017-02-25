@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Channels\System;
+namespace Josheli\Channels\System;
 
-use App\Channels\Channel;
-use App\Channels\Helpers;
+use Josheli\Core\Channel;
+use Josheli\Core\Helpers;
 
 class System extends Channel
 {

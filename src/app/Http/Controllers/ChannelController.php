@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Channels\Directory;
-use App\Channels\Helpers;
+use Josheli\Core\Directory;
+use Josheli\Core\Helpers;
 use Illuminate\Http\Request;
 
 /**
@@ -111,7 +111,7 @@ class ChannelController extends Controller
   public function asset($channel_id, $asset_name)
   {
     return response()->download(
-      base_path() . '/app/Channels/' . camel_case($channel_id) . '/assets/' . $asset_name,
+      base_path() . '/app/Josheli/Channels/' . camel_case($channel_id) . '/assets/' . $asset_name,
       $asset_name,
       [],
       'inline'

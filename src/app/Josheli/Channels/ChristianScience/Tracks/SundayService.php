@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Channels\ChristianScience\Tracks;
+namespace Josheli\Channels\ChristianScience\Tracks;
 
-use App\Channels\Track;
+use Josheli\Core\Track;
 
 class SundayService extends Track
 {
