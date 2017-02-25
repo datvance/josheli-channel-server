@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Channels\Channel;
 use App\Channels\Directory;
+use App\Channels\Helpers;
 use Illuminate\Http\Request;
 
 /**
@@ -30,18 +30,14 @@ class ChannelController extends Controller
    * @param $channel_id
    * @return \Illuminate\Http\JsonResponse
    */
-  public function mainMenu($channel_id)
+  public function channel($channel_id)
   {
     $response = [];
+    
     try
     {
-      $class_name = camel_case($channel_id);
-      $ns_class = 'App\Channels\\'.$class_name.'\\'.$class_name;
-
-      /** @var Channel $channel */
-      $channel = new $ns_class();
-      $response = $channel->info();
-      $response['items'] = $channel->items();
+      $channel = Helpers::channel($channel_id);
+      $response = $channel->mainMenu();
     }
     catch (\Exception $e)
     {
@@ -58,32 +54,46 @@ class ChannelController extends Controller
    */
   public function directory($channel_id, $directory_id)
   {
+    $response = [];
+
     if($directory_id == 'main-menu')
     {
-      return redirect()->route('main-menu', ['channel_id' => $channel_id]);
+      return redirect()->route('channel', ['channel_id' => $channel_id]);
     }
-
-    $response = [];
 
     try
     {
-      $ns_class =
-        'App\\Channels\\' .
-        studly_case($channel_id) .
-        '\\Directories\\' .
-        studly_case($directory_id);
+      /**
+       * First see if the directory is a method on the channel class
+       * and if so, call that. In this case, this method is responsible
+       * for returning correct JSON
+       */
+      $channel = Helpers::channel($channel_id);
+      $channel_method = camel_case($directory_id);
 
-      /** @var Directory $directory */
-      $directory = new $ns_class();
-
-      if($this->request->input('cache') == 'delete')
+      if(method_exists($channel, $channel_method))
       {
-        $directory->clearCache($directory_id);
+        $response = $channel->$channel_method();
       }
+      else
+      {
+        /**
+         * Next, see if a Directory class of this name exists in this Channel Namespace
+         * and if so, call that. JSON should be automatically formatted in this case.
+         */
+        $ns_directory = $channel->channelNamespace() . '\\Directories\\' . studly_case($directory_id);
 
-      $response = $directory->info();
-      $response['items'] = $directory->items();
+        /** @var Directory $directory */
+        $directory = new $ns_directory();
 
+        if($this->request->input('cache') == 'delete')
+        {
+          $directory->clearCache($directory_id);
+        }
+
+        $response = $directory->info();
+        $response['items'] = $directory->items();
+      }
     }
     catch (\Exception $e)
     {

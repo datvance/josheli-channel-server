@@ -16,23 +16,15 @@ class Channel extends Directory
   ];
 
   /**
-   * The items from the Directory MainMenu
-   *
+   * Answers the channel/channel_id endpoint
    * @return array
    */
-  public function items()
+  public function mainMenu()
   {
-    $ns_class = 'App\\Channels\\' . studly_case($this->channel_id) . '\\Directories\MainMenu';
+    $menu = $this->info();
+    $menu['items'] = $this->items();
 
-    if(class_exists($ns_class))
-    {
-      /** @var Directory $main_menu */
-      $main_menu = new $ns_class();
-
-      return $main_menu->items();
-    }
-
-    return [];
+    return $menu;
   }
 
   /**
@@ -53,4 +45,14 @@ class Channel extends Directory
     return $this->properties['background'];
   }
 
+  public function endpoint()
+  {
+    if(!$this->properties['endpoint'])
+    {
+      $url = route('channel', ['channel_id' => $this->channel_id()]);
+      $this->properties['endpoint'] = parse_url($url, PHP_URL_PATH);
+    }
+    
+    return $this->properties['endpoint'];
+  }
 }

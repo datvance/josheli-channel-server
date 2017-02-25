@@ -11,7 +11,7 @@ namespace App\Channels;
  *
  * @package App\Channels
  */
-class Directory extends Item
+class Directory extends Item implements DirectoryInterface
 {
   protected $items = [];
 
@@ -45,17 +45,10 @@ class Directory extends Item
   {
     if(!$this->properties['endpoint'] && $this->channel_id())
     {
-      if($this instanceof Channel)
-      {
-        $url = route('main-menu', ['channel_id' => $this->channel_id()]);
-      }
-      else
-      {
-        $url = route('directory', [
-          'channel_id' => $this->channel_id(),
-          'directory_id' => $this->id()
-        ]);
-      }
+      $url = route('directory', [
+        'channel_id' => $this->channel_id(),
+        'directory_id' => $this->id()
+      ]);
 
       $this->properties['endpoint'] = parse_url($url, PHP_URL_PATH);
     }

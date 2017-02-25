@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Filesystem\Filesystem;
-
 class SystemTest extends TestCase
 {
   protected $channel_id = 'system';
@@ -29,8 +27,7 @@ class SystemTest extends TestCase
     $types = ['channel'];
 
     $ids = [];
-    $fs = new Filesystem();
-    foreach($fs->directories(base_path('app/Channels')) as $directory)
+    foreach(\App\Channels\Helpers::getChannels() as $directory)
     {
       $ids[] = \App\Channels\Helpers::slugify(basename($directory));
     }

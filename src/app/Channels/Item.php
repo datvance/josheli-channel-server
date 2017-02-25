@@ -93,7 +93,6 @@ class Item
         $this->$prop();
       }
     }
-
   }
 
   public function __get($name)
@@ -218,6 +217,16 @@ class Item
     }
 
     return $this->properties['channel_id'];
+  }
+
+  public function className()
+  {
+    return class_basename($this);
+  }
+
+  public function channelNamespace()
+  {
+    return 'App\Channels\\'.studly_case($this->channel_id());
   }
 
   public function getCache($cache_name)

@@ -17,20 +17,37 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'channel/{channel_id}'], function () use ($app)
 {
-    $routes = [
-        'main-menu' => '',
-        'directory' => '/{directory_id}',
-        'asset' => '/{asset_name}'
-    ];
-    
-    foreach($routes as $id => $route)
+    $app->get('', [
+      'as' => 'channel',
+      'uses' => 'ChannelController@channel'
+    ]);
+
+    $app->get('directory/{directory_id}', [
+      'as' => 'directory',
+      'uses' => 'ChannelController@directory'
+    ]);
+
+    $app->get('asset/{asset_name}', [
+      'as' => 'asset',
+      'uses' => 'ChannelController@asset'
+    ]);
+
+
+    /**
+     * Scan and load optional, dynamic routes in each channel
+     *
+     * @var \App\Channels\Channel $channel
+     */
+    foreach(\App\Channels\Helpers::getChannels($objects = true) as $channel)
     {
-        if($route) $route = $id . $route;
-
-        $app->get($route, [
-          'as' => $id,
-          'uses' => 'ChannelController@'.camel_case($id)
-        ]);
+        $channel_routes = base_path('app/Channels/'.$channel->className().'/routes.php');
+        if(file_exists($channel_routes))
+        {
+            $app->group(
+              ['namespace' => '\App\Channels\\'.$channel->className()],
+              function() use ($app, $channel, $channel_routes) {
+                include $channel_routes;
+            });
+        }
     }
-
 });
