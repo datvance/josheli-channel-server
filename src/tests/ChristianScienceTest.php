@@ -2,6 +2,11 @@
 
 use Josheli\Core\Helpers;
 
+/**
+ * Class ChristianScienceTest
+ *
+ * @group josheli-cs
+ */
 class ChristianScienceTest extends TestCase
 {
   protected $channel_id = 'christian-science';

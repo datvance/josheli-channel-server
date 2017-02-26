@@ -2,6 +2,11 @@
 
 use Josheli\Core\Helpers;
 
+/**
+ * Class SystemTest
+ *
+ * @group josheli-system
+ */
 class SystemTest extends TestCase
 {
   protected $channel_id = 'system';
