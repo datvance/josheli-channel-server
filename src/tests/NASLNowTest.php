@@ -3,7 +3,7 @@
 /**
  * Class NASLNowTest
  *
- * @group nasl-now
+ * @group josheli-nasl
  */
 class NASLNowTest extends TestCase
 {
