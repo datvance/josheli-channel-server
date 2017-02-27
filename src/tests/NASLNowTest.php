@@ -42,4 +42,26 @@ class NASLNowTest extends TestCase
 
     }
   }
+
+  public function testOfficial()
+  {
+    $this->endpointContainsJson('/directory/official', [
+      'type' => 'directory',
+      'id' => 'official',
+      'title' => 'NASL Official',
+      'endpoint' => "/channel/{$this->channel_id}/directory/official",
+      'channel_id' => $this->channel_id,
+    ]);
+  }
+
+  public function testLatest()
+  {
+    $this->endpointContainsJson('/directory/latest', [
+      'type' => 'directory',
+      'id' => 'latest',
+      'title' => 'Latest',
+      'endpoint' => "/channel/{$this->channel_id}/directory/latest",
+      'channel_id' => $this->channel_id,
+    ]);
+  }
 }
