@@ -3,7 +3,7 @@
 namespace Josheli\Core;
 
 /**
- * An Audio Track representation
+ * An Audio or Video Track representation
  *
  * Class Track
  *

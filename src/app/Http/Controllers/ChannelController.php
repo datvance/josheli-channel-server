@@ -54,7 +54,7 @@ class ChannelController extends Controller
    */
   public function directory($channel_id, $directory_id)
   {
-    $response = [];
+    $directory = null;
 
     if($directory_id == 'main-menu')
     {
@@ -65,15 +65,15 @@ class ChannelController extends Controller
     {
       /**
        * First see if the directory is a method on the channel class
-       * and if so, call that. In this case, this method is responsible
-       * for returning correct JSON
+       * and if so, call that. In this case, this method should return
+       * an instance of a Directory
        */
       $channel = Helpers::channel($channel_id);
       $channel_method = camel_case($directory_id);
 
       if(method_exists($channel, $channel_method))
       {
-        $response = $channel->$channel_method();
+        $directory = $channel->$channel_method();
       }
       else
       {
@@ -90,14 +90,18 @@ class ChannelController extends Controller
         {
           $directory->clearCache($directory_id);
         }
-
-        $response = $directory->info();
-        $response['items'] = $directory->items();
       }
     }
     catch (\Exception $e)
     {
       abort(404, $e->getMessage());
+    }
+
+    $response = [];
+    if($directory)
+    {
+      $response = $directory->info();
+      $response['items'] = $directory->items();
     }
 
     return $this->respond($response);

@@ -10,3 +10,25 @@ logo size:
 background size (16:9):
 1280x720 = 1.7777
 1920x1080 = 1.7777
+
+
+To create a channel:
+
+- php artisan make:channel "My Channel"
+
+- Implement the MyChannel->items() method to return the items
+  for the main menu of your channel. Items can be either
+  Directories or Tracks.
+
+- You can create individual Directory objects in the Directories
+  directory, or you can create methods on your Channel that return
+  generic Directory objects. See Christian Science channel for
+  example of the former, and NASL Now for example of the latter.
+
+- Create individual representations of audio or video tracks in the
+  "Tracks" directory. Again, see Christian Science channel for examples.
+
+- If you need advanced, or dynamic, routing, you can create a routes.php
+  file in the top-level of your Channel. It will be namespaced to your
+  Channel, your Channel object will be available, and the prefix will
+  be "/channel/channel-id/". See Big 12 Sports for an example.

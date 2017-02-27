@@ -3,9 +3,15 @@
 namespace Josheli\Core;
 
 use Illuminate\Filesystem\Filesystem;
+use Madcoda\Youtube\Youtube;
 
 class Helpers
 {
+  /**
+   * @var Youtube
+   */
+  protected static $youtube;
+
   public static function slugify($string)
   {
     $string = strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^\-])([A-Z][a-z])/'], '$1-$2', $string));
@@ -60,5 +66,18 @@ class Helpers
 
     throw new \Exception('Channel not found.');
 
+  }
+
+  /**
+   *
+   */
+  public static function youtube()
+  {
+    if(!self::$youtube)
+    {
+      self::$youtube = new Youtube(['key' => env('YOUTUBE_API_KEY')]);
+    }
+
+    return self::$youtube;
   }
 }
