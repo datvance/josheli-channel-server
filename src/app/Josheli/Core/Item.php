@@ -144,6 +144,10 @@ class Item
       {
         $this->properties['type'] = 'directory';
       }
+      elseif($this instanceof Video)
+      {
+        $this->properties['type'] = 'video';
+      }
       elseif($this instanceof Track)
       {
         $this->properties['type'] = 'track';

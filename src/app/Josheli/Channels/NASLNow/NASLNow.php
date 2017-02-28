@@ -5,7 +5,7 @@ namespace Josheli\Channels\NASLNow;
 use Josheli\Core\Channel;
 use Josheli\Core\Directory;
 use Josheli\Core\Helpers;
-use Josheli\Core\Track;
+use Josheli\Core\Video;
 use Madcoda\Youtube\Youtube;
 
 class NASLNow extends Channel
@@ -37,7 +37,7 @@ class NASLNow extends Channel
 
       foreach($videos as $video)
       {
-        $vid = new Track();
+        $vid = new Video();
         $vid->id = 'youtube-' . $video->contentDetails->videoId;
         $vid->channel_id = $this->channel_id();
         $vid->title = $video->snippet->title;
@@ -67,7 +67,7 @@ class NASLNow extends Channel
 
       foreach($videos as $video)
       {
-        $vid = new Track();
+        $vid = new Video();
         $vid->id = 'youtube-' . $video->id->videoId;
         $vid->channel_id = $this->channel_id();
         $vid->title = $video->snippet->title;
