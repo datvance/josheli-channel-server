@@ -59,7 +59,7 @@ class NASLNowTest extends TestCase
     $this->endpointContainsJson('/directory/latest', [
       'type' => 'directory',
       'id' => 'latest',
-      'title' => 'Latest',
+      'title' => 'Latest Videos',
       'endpoint' => "/channel/{$this->channel_id}/directory/latest",
       'channel_id' => $this->channel_id,
     ]);
