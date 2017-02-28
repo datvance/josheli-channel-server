@@ -24,6 +24,7 @@ class NASLNow extends Channel
   {
     $official = new Directory();
     $official->title = 'NASL Official';
+    $official->summary = 'Latest Videos from nasl.com';
     $official->id = __FUNCTION__;
     $official->channel_id = $this->channel_id();
 
@@ -56,7 +57,8 @@ class NASLNow extends Channel
   public function latest($items = true)
   {
     $latest = new Directory();
-    $latest->title = 'Latest';
+    $latest->title = 'Latest Videos';
+    $latest->summary = 'Latest Youtube Videos about NASL';
     $latest->id = __FUNCTION__;
     $latest->channel_id = $this->channel_id();
 

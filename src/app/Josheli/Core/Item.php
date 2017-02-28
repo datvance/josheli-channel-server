@@ -185,6 +185,11 @@ class Item
 
   public function summary()
   {
+    if(!$this->properties['summary'])
+    {
+      $this->properties['summary'] = $this->title();
+    }
+
     return $this->properties['summary'];
   }
 
