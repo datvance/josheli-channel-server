@@ -238,11 +238,11 @@ class Item
     return 'Josheli\Channels\\'.studly_case($this->channel_id());
   }
 
-  public function getCache($cache_name)
+  public function getCache($cache_name, $default = null)
   {
     $cache_name = $this->id() . '-' . $cache_name;
 
-    return env('APP_DEBUG') ? null : $this->cache->get($cache_name);
+    return env('APP_DEBUG') ? null : $this->cache->get($cache_name, $default);
   }
 
   public function putCache($cache_name, $value, $minutes = 60)

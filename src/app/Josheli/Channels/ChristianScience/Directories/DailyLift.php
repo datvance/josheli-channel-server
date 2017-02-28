@@ -16,7 +16,9 @@ class DailyLift extends Directory
    */
   public function items()
   {
-    $lifts = [];
+    $lifts = $this->getCache(__FUNCTION__, []);
+
+    if($lifts) return $lifts;
 
     try {
 
@@ -63,6 +65,13 @@ class DailyLift extends Directory
     {
     }
 
-    return array_values($lifts);
+    if($lifts)
+    {
+      $lifts = array_values($lifts);
+
+      $this->putCache(__FUNCTION__, $lifts, 360);
+    }
+
+    return $lifts;
   }
 }

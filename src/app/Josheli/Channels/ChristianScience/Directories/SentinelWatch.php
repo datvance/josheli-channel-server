@@ -16,7 +16,9 @@ class SentinelWatch extends Directory
    */
   public function items()
   {
-    $items = [];
+    $items = $this->getCache(__FUNCTION__, []);
+
+    if($items) return $items;
 
     try {
 
@@ -57,6 +59,11 @@ class SentinelWatch extends Directory
     catch (\Exception $e)
     {
 
+    }
+
+    if($items)
+    {
+      $this->putCache(__FUNCTION__, $items, 360);
     }
 
     return $items;
