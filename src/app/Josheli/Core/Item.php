@@ -242,14 +242,14 @@ class Item
   {
     $cache_name = $this->id() . '-' . $cache_name;
 
-    return $this->cache->get($cache_name);
+    return env('APP_DEBUG') ? null : $this->cache->get($cache_name);
   }
 
   public function putCache($cache_name, $value, $minutes = 60)
   {
     $cache_name = $this->id() . '-' . $cache_name;
 
-    return $this->cache->add($cache_name, $value, $minutes);
+    return env('APP_DEBUG') ? true : $this->cache->add($cache_name, $value, $minutes);
   }
 
   public function clearCache($cache_name)

@@ -30,11 +30,18 @@ class NASLNow extends Channel
 
     if($items)
     {
-      $youtube = Helpers::youtube();
-      $yt_channel = $youtube->getChannelByName('NASLOfficial');
-      $upload_id = $yt_channel->contentDetails->relatedPlaylists->uploads;
+      $videos = $this->getCache(__FUNCTION__);
 
-      $videos = $youtube->getPlaylistItemsByPlaylistId($upload_id, 25);
+      if(!$videos)
+      {
+        $youtube = Helpers::youtube();
+        $yt_channel = $youtube->getChannelByName('NASLOfficial');
+        $upload_id = $yt_channel->contentDetails->relatedPlaylists->uploads;
+
+        $videos = $youtube->getPlaylistItemsByPlaylistId($upload_id, 25);
+
+        if($videos) $this->putCache(__FUNCTION__, $videos, 360);
+      }
 
       foreach($videos as $video)
       {
@@ -64,8 +71,15 @@ class NASLNow extends Channel
 
     if($items)
     {
-      $youtube = Helpers::youtube();
-      $videos = $youtube->searchVideos('NASL Soccer', 25, Youtube::ORDER_DATE);
+      $videos = $this->getCache(__FUNCTION__);
+
+      if(!$videos)
+      {
+        $youtube = Helpers::youtube();
+        $videos = $youtube->searchVideos('NASL Soccer', 25, Youtube::ORDER_DATE);
+
+        if($videos) $this->putCache(__FUNCTION__, $videos, 360);
+      }
 
       foreach($videos as $video)
       {
